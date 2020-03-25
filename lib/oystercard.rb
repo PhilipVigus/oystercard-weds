@@ -46,31 +46,3 @@ class Oystercard
     @balance -= MINIMUM_BALANCE
   end
 end
-
-
-
-
-
-=begin
-reader
-def balance
-  @balance
-end
-
-
-writer
-
-def balance(num)
-  @balance = num
-end
-
-accessor
-def balance(num)
-  @balance = num
-end
-def balance
-  @balance
-end
-=end
-
-# options = { font_size: 10, font_family: "Arial" } 
