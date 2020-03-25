@@ -9,6 +9,7 @@ class Oystercard
   def initialize(balance = STARTING_BALANCE)
     @balance = balance
     @journeys_taken = []
+    @current_journey = nil
   end
 
   def top_up(num)
@@ -17,23 +18,29 @@ class Oystercard
   end
 
   def touch_in(station)
+    @current_journey = Journey.new
+    @current_journey.start(station)
     @entry_station = station
     if @balance < MINIMUM_BALANCE
       raise "Insufficient balance to touch in"
     elsif @balance >= MINIMUM_BALANCE
-      @in_system = true
+      @in_system = true ##get rid of in_system?
     end
   end
 
   def touch_out(station)
     deduct
-    my_journey = {entry_station: @entry_station, exit_station: station}
-    @journeys_taken << my_journey
+    @current_journey.finish(station)
+    @journeys_taken << @current_journey
     @entry_station = nil
   end
 
   def in_journey?
-    !!@entry_station
+    if @current_journey.complete?
+      false
+    else
+      true
+    end
   end
 
   def previous_journeys
